@@ -82,3 +82,18 @@ starting a contribution.
 ## 2. Create a Dedicated Branch
 
 Use clear and descriptive branch names:
+# Contributing to Sovereign AI Workforce
+
+...
+## 2. Create a Dedicated Branch
+
+...
+
+## 3. Develop and Validate
+
+Before submitting changes:
+
+...
+# A Shared Vision
+
+Sovereign AI Workforce represents...
