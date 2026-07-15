@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+
+title: "Sovereign AI Workforce: A Human-Governed Multi-Agent AI Framework for Responsible Autonomous Collaboration"
+
+message: "If you use, reference, extend, or build upon this research prototype, please cite this work."
+
+type: software
+
+authors:
+  - family-names: "Boukhalfa"
+    given-names: "Fateh Abderrahim"
+    affiliation: "Independent AI Research Initiative"
+
+repository-code: "https://github.com/fatehabderrahim189-prog/sovereign-ai-workforce-app"
+
+version: "v1.0.0"
+
+date-released: "2026-07-15"
+
+abstract: >
+  Sovereign AI Workforce is an open research prototype exploring the future
+  of human-governed multi-agent artificial intelligence systems.
+
+  The project investigates responsible AI orchestration through specialized
+  autonomous agents, governance-oriented architectures, and human-centered
+  decision frameworks. It aims to explore how intelligent systems can
+  collaborate, coordinate, and assist humans while maintaining transparency,
+  accountability, and meaningful human oversight.
+
+  This work contributes to the broader exploration of trustworthy autonomous
+  systems and emerging AI workforce paradigms.
+
+keywords:
+  - Artificial Intelligence
+  - Multi-Agent Systems
+  - Autonomous AI Agents
+  - AI Governance
+  - Responsible AI
+  - Human-Centered Artificial Intelligence
+  - AI Orchestration
+  - Autonomous Systems
+  - Future of Work
+  - Intelligent Collaboration
+
+license: MIT
+
+repository: "https://github.com/fatehabderrahim189-prog/sovereign-ai-workforce-app"
