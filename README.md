@@ -5,6 +5,13 @@
 Sovereign AI Workforce is a research prototype exploring how autonomous AI agents can collaborate under meaningful human oversight to support complex organizational workflows.
 
 Developed for the **USAII Global AI Hackathon 2026**, the project investigates responsible AI orchestration through transparent governance, multi-agent collaboration, and human-centered system design.
+# Sovereign AI Workforce
+
+### Human-Governed Autonomous Multi-Agent AI Workforce
+
+Sovereign AI Workforce is a research-driven AI platform exploring...
+...
+Developed for the USAII Global AI Hackathon 2026...
 
 ---
 
