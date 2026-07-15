@@ -264,3 +264,65 @@ AI Research & Engineering Enthusiast
 
 GitHub:
 https://github.com/fatehabderrahim189-prog
+---
+
+# Screenshots
+
+## Landing Website
+
+<p align="center">
+<img src="images/landing-page.png" width="900">
+</p>
+
+---
+
+## Mobile Application
+
+<p align="center">
+<img src="images/mobile-app.png" width="900">
+</p>
+
+---
+
+## AI Dashboard
+
+<p align="center">
+<img src="images/dashboard.png" width="900">
+</p>
+---
+
+# Project Impact
+
+Sovereign AI Workforce explores how future organizations may coordinate specialized autonomous AI agents through transparent workflows, responsible governance, and meaningful human oversight.
+
+The project investigates concepts relevant to:
+
+- Enterprise AI
+- Public Sector AI
+- Digital Government
+- Research Organizations
+- Smart Enterprises
+- Human-AI Collaboration
+- Responsible Automation
+
+Rather than presenting AI as a replacement for human expertise, the platform demonstrates how intelligent systems can support decision-making while preserving accountability and trust.
+---
+
+# Repository Status
+
+| Component | Status |
+|-----------|--------|
+| Landing Website | Completed |
+| Mobile Application | Completed |
+| Design System | Completed |
+| System Architecture | Completed |
+| Documentation | Completed |
+| Strategy Document | Completed |
+| Submission Package | Completed |
+| Pitch Deck | Completed |
+| Research Prototype | Completed |
+---
+
+# Keywords
+
+Artificial Intelligence • Multi-Agent Systems • Responsible AI • AI Governance • Human-Centered AI • Workflow Automation • Intelligent Systems • Enterprise AI • Research Prototype • Human-in-the-Loop • AI Orchestration • Future of Work
