@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sovereign AI Workforce — Mobile App</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ════════════════════════════════════
+   TOKENS
+════════════════════════════════════ */
+:root {
+  --n9:#04060F; --n8:#080D1A; --n7:#0C1220; --n6:#0F1628;
+  --n5:#1A2540; --n4:#243050; --n3:#2D3D65; --n2:#4A5E8A;
+  --n1:#7A90B8; --n0:#C7D4EC;
+  --amber:#F59E0B; --amber-d:#D97706; --amber-l:#FDE68A;
+  --blue:#3B82F6; --blue-d:#2563EB; --blue-l:#93C5FD;
+  --green:#10B981; --green-d:#059669; --green-l:#6EE7B7;
+  --red:#EF4444; --red-d:#DC2626; --red-l:#FCA5A5;
+  --purple:#8B5CF6; --cyan:#06B6D4; --yellow:#EAB308;
+  --text:#E2E8F0; --dim:#94A3B8; --faint:#475569;
+  --border:#1A2540; --bord2:#243050;
+  --sg:'Space Grotesk',sans-serif;
+  --inter:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --r4:4px; --r8:8px; --r12:12px; --r16:16px; --r20:20px; --r99:9999px;
+}
+
+/* ════════════════════════════════════
+   RESET & PAGE
+════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--inter);
+  background:#111827;
+  color:var(--text);
+  min-height:100vh;
+  padding:40px 20px 60px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* ════════════════════════════════════
+   PAGE HEADER
+════════════════════════════════════ */
+.page-title{
+  font-family:var(--sg);
+  font-size:28px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-1px;
+  margin-bottom:6px;
+  text-align:center;
+}
+.page-sub{
+  font-size:14px;
+  color:var(--dim);
+  margin-bottom:40px;
+  text-align:center;
+  font-family:var(--mono);
+  letter-spacing:.5px;
+}
+.page-nav{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:48px;
+}
+.nav-pill{
+  font-size:12px;
+  font-family:var(--sg);
+  font-weight:700;
+  padding:7px 14px;
+  border-radius:var(--r99);
+  border:1.5px solid var(--border);
+  background:transparent;
+  color:var(--dim);
+  cursor:pointer;
+  transition:all .15s;
+  text-decoration:none;
+}
+.nav-pill:hover,.nav-pill.active{
+  border-color:var(--amber);
+  color:var(--amber);
+  background:rgba(245,158,11,.08);
+}
+
+/* ════════════════════════════════════
+   SCREENS GRID
+════════════════════════════════════ */
+.screens-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, 390px);
+  gap:48px;
+  justify-content:center;
+  max-width:1700px;
+  width:100%;
+}
+
+/* ════════════════════════════════════
+   PHONE SHELL
+════════════════════════════════════ */
+.phone-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:16px;
+}
+.screen-label{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--amber);
+}
+.screen-desc{
+  font-size:13px;
+  color:var(--dim);
+  text-align:center;
+  max-width:340px;
+  line-height:1.6;
+}
+.phone{
+  width:390px;
+  min-height:844px;
+  background:var(--n9);
+  border-radius:44px;
+  overflow:hidden;
+  position:relative;
+  border:1.5px solid var(--n5);
+  box-shadow:
+    0 0 0 6px var(--n8),
+    0 0 0 7px var(--n5),
+    0 40px 80px rgba(0,0,0,.7);
+  display:flex;
+  flex-direction:column;
+}
+
+/* Status bar */
+.status-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 28px 10px;
+  flex-shrink:0;
+}
+.status-time{
+  font-family:var(--sg);
+  font-size:15px;
+  font-weight:700;
+  color:#fff;
+}
+.status-icons{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:#fff;
+}
+.status-icons span{ font-size:11px; font-weight:600; }
+
+/* Notch */
+.notch{
+  position:absolute;
+  top:0;left:50%;transform:translateX(-50%);
+  width:130px;height:34px;
+  background:var(--n9);
+  border-radius:0 0 22px 22px;
+  z-index:10;
+}
+
+/* Content */
+.phone-content{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-bottom:90px;
+  scroll-behavior:smooth;
+}
+.phone-content::-webkit-scrollbar{display:none}
+
+/* Bottom tab bar */
+.tab-bar{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:88px;
+  background:rgba(8,13,26,.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:flex-start;
+  padding:10px 0 0;
+  flex-shrink:0;
+}
+.tab-item{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  padding:4px 0;
+  cursor:pointer;
+}
+.tab-icon{ font-size:22px; line-height:1; }
+.tab-text{ font-size:10px; font-weight:600; font-family:var(--sg); color:var(--faint); }
+.tab-item.active .tab-text{ color:var(--amber); }
+.tab-item.active .tab-icon{ filter:drop-shadow(0 0 6px rgba(245,158,11,.5)); }
+.tab-dot{
+  position:absolute;
+  top:-2px;right:-2px;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--red);
+  border:1.5px solid var(--n8);
+}
+.tab-icon-wrap{ position:relative; }
+
+/* ════════════════════════════════════
+   SHARED COMPONENTS
+════════════════════════════════════ */
+.eyebrow{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:10px;
+}
+.section-title{
+  font-family:var(--sg);
+  font-size:22px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-.5px;
+  margin-bottom:4px;
+}
+.section-sub{
+  font-size:13px;
+  color:var(--dim);
+  line-height:1.55;
+  margin-bottom:16px;
+}
+.card{
+  background:var(--n8);
+  border:1px solid var(--border);
+  border-radius:var(--r16);
+  padding:16px;
+  margin-bottom:10px;
+}
+.card-sm{
+  background:var(--n7);
+  border:1px solid var(--bord2);
+  border-radius:var(--r12);
+  padding:12px 14px;
+  margin-bottom:8px;
+}
+.divider{ height:1px;background:var(--border);margin:12px 0; }
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  padding:3px 10px;
+  border-radius:var(--r99);
+  font-family:var(--mono);
+  font-size:10px;
+  font-weight:600;
+}
+.badge-green{ background:rgba(16,185,129,.12); border:1px solid rgba(16,185,129,.3); color:var(--green); }
+.badge-amber{ background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.3); color:var(--amber); }
+.badge-red  { background:rgba(239,68,68,.12);  border:1px solid rgba(239,68,68,.3);  color:var(--red); }
+.badge-blue { background:rgba(59,130,246,.12); border:1px solid rgba(59,130,246,.3); color:var(--blue); }
+.badge-purple{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);color:var(--purple);}
+.pulse-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);
+  animation:pdot 2s infinite;
+  display:inline-block;
+}
+@keyframes pdot{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.5)}50%{box-shadow:0 0 0 5px rgba(16,185,129,0)}}
+.btn-primary{
+  width:100%;padding:14px;
+  background:var(--amber);color:var(--n9);
+  border:none;border-radius:var(--r12);
+  font-family:var(--sg);font-weight:800;font-size:15px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .15s;
+}
+.btn-primary:active{background:var(--amber-d);}
+.btn-ghost{
+  width:100%;padding:13px;
+  background:transparent;color:var(--text);
+  border:1.5px solid var(--bord2);border-radius:var(--r12);
+  font-family:var(--sg);font-weight:700;font-size:14px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-danger{
+  width:100%;padding:13px;
+  background:rgba(239,68,68,.12);color:var(--red);
+  border:1.5px solid rgba(239,68,68,.3);border-radius:var(--r12);
+  font-family:var(--sg);font-weight:700;font-size:14px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue-d),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sg);font-size:13px;font-weight:800;color:#fff;
+  flex-shrink:0;
+}
+.input-field{
+  width:100%;
+  background:var(--n7);
+  border:1.5px solid var(--bord2);
+  border-radius:var(--r12);
+  padding:14px 16px;
+  color:var(--text);
+  font-family:var(--inter);
+  font-size:15px;
+  outline:none;
+  margin-bottom:12px;
+}
+.input-field::placeholder{color:var(--faint);}
+
+/* Screen-specific padding */
+.screen-pad{ padding:0 20px; }
+
+/* ════════════════════════════════════
+   1. LOGIN SCREEN
+════════════════════════════════════ */
+.login-bg{
+  background:linear-gradient(160deg,var(--n9) 0%,#0a0e1f 50%,var(--n9) 100%);
+  min-height:844px;
+  display:flex;flex-direction:column;
+  padding:60px 28px 40px;
+}
+.login-glow{
+  position:absolute;
+  width:300px;height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(245,158,11,.1) 0%,transparent 70%);
+  top:40px;left:50%;transform:translateX(-50%);
+  pointer-events:none;
+}
+.login-mark{
+  width:64px;height:64px;
+  background:linear-gradient(135deg,var(--amber),var(--amber-d));
+  border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;color:var(--n9);font-weight:900;
+  font-family:var(--sg);
+  margin:0 auto 20px;
+  box-shadow:0 0 0 4px rgba(245,158,11,.15), 0 16px 40px rgba(245,158,11,.25);
+}
+.login-title{
+  font-family:var(--sg);font-size:26px;font-weight:800;
+  color:#fff;text-align:center;margin-bottom:6px;letter-spacing:-.5px;
+}
+.login-sub{
+  font-size:13px;color:var(--dim);text-align:center;margin-bottom:40px;
+}
+.input-label{
+  font-size:11px;font-weight:700;color:var(--dim);
+  font-family:var(--sg);letter-spacing:.5px;
+  margin-bottom:6px;display:block;text-transform:uppercase;
+}
+.input-wrap{ position:relative;margin-bottom:14px; }
+.input-icon{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  font-size:16px;color:var(--faint);
+}
+.input-field-icon{
+  padding-left:44px;
+}
+.login-biometric{
+  text-align:center;margin:16px 0 24px;
+}
+.bio-btn{
+  width:56px;height:56px;
+  border-radius:50%;
+  background:var(--n7);
+  border:1.5px solid var(--bord2);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:26px;cursor:pointer;
+  transition:all .2s;
+}
+.bio-btn:hover{ border-color:var(--amber);background:rgba(245,158,11,.1); }
+.bio-label{ font-size:11px;color:var(--faint);margin-top:6px; }
+.login-footer{ margin-top:auto;text-align:center;font-size:12px;color:var(--faint); }
+.login-footer a{ color:var(--amber); }
+
+/* ════════════════════════════════════
+   2. DASHBOARD
+════════════════════════════════════ */
+.dash-header{
+  padding:16px 20px 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.dash-greeting{ font-family:var(--sg);font-size:13px;color:var(--dim); }
+.dash-name{ font-family:var(--sg);font-size:20px;font-weight:800;color:#fff;line-height:1.2; }
+.notif-btn{
+  width:40px;height:40px;
+  background:var(--n7);
+  border:1px solid var(--bord2);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;
+  position:relative;
+}
+.notif-badge{
+  position:absolute;top:-4px;right:-4px;
+  width:16px;height:16px;
+  background:var(--red);
+  border-radius:50%;
+  border:2px solid var(--n9);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:800;font-family:var(--sg);color:#fff;
+}
+.kpi-scroll{
+  display:flex;
+  gap:10px;
+  padding:4px 20px 4px;
+  overflow-x:auto;
+}
+.kpi-scroll::-webkit-scrollbar{display:none}
+.kpi-card{
+  flex-shrink:0;
+  width:130px;
+  background:var(--n8);
+  border:1px solid var(--border);
+  border-top:3px solid var(--kpi-color,var(--amber));
+  border-radius:var(--r16);
+  padding:14px;
+}
+.kpi-val{
+  font-family:var(--sg);
+  font-size:28px;font-weight:800;
+  color:var(--kpi-color,var(--amber));
+  line-height:1;margin-bottom:4px;
+}
+.kpi-lab{ font-size:11px;color:var(--dim);line-height:1.4; }
+.activity-list{ padding:0 20px; }
+.activity-item{
+  display:flex;align-items:flex-start;
+  gap:12px;padding:12px 0;
+  border-bottom:1px solid var(--border);
+}
+.activity-item:last-child{ border-bottom:none; }
+.act-icon{
+  width:36px;height:36px;flex-shrink:0;
+  border-radius:10px;
+  background:var(--n7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+}
+.act-title{ font-size:13px;font-weight:600;color:var(--text);line-height:1.4; }
+.act-sub{ font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:2px; }
+.agent-strip{
+  padding:8px 20px 16px;
+  overflow-x:auto;display:flex;gap:8px;
+}
+.agent-strip::-webkit-scrollbar{display:none}
+.agent-pill{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:6px;
+  background:var(--n7);
+  border:1px solid var(--bord2);
+  border-radius:var(--r99);
+  padding:7px 12px;
+  font-size:12px;font-weight:600;font-family:var(--sg);
+  color:var(--text);
+}
+.agent-dot{ width:6px;height:6px;border-radius:50%;background:var(--green); }
+.agent-dot.amber{ background:var(--amber);animation:pdot 1s infinite; }
+
+/* ════════════════════════════════════
+   3. AGENT MONITORING
+════════════════════════════════════ */
+.mon-header{
+  padding:16px 20px;
+  display:flex;align-items:center;gap:12px;
+}
+.back-btn{
+  width:36px;height:36px;
+  background:var(--n7);border:1px solid var(--bord2);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;cursor:pointer;
+}
+.screen-title{ font-family:var(--sg);font-size:19px;font-weight:800;color:#fff; }
+.run-log-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px 20px;
+  border-bottom:1px solid var(--border);
+}
+.rl-bar-wrap{ display:flex;flex-direction:column;gap:4px;margin-top:4px; }
+.rl-bar-track{
+  height:4px;background:var(--n5);border-radius:99px;
+  width:100px;overflow:hidden;
+}
+.rl-bar-fill{
+  height:100%;border-radius:99px;
+  background:var(--bar-color,var(--green));
+}
+.lat-chip{
+  font-family:var(--mono);font-size:10px;
+  color:var(--dim);
+}
+
+/* ════════════════════════════════════
+   4. WORKFORCE BUILDER
+════════════════════════════════════ */
+.builder-top{
+  padding:16px 20px;
+}
+.role-card{
+  background:var(--n8);
+  border:1px solid var(--border);
+  border-radius:var(--r16);
+  padding:18px;margin:0 20px 10px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.role-icon{
+  width:48px;height:48px;flex-shrink:0;
+  border-radius:14px;
+  background:var(--n7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  border:1px solid var(--bord2);
+}
+.role-name{ font-family:var(--sg);font-size:16px;font-weight:700;color:#fff;margin-bottom:3px; }
+.role-desc{ font-size:12px;color:var(--dim);line-height:1.5;margin-bottom:10px; }
+.role-agents{ display:flex;flex-wrap:wrap;gap:5px; }
+.agent-chip{
+  font-family:var(--mono);font-size:9.5px;
+  padding:3px 8px;border-radius:var(--r99);
+  background:transparent;
+  border:1px solid;
+  font-weight:600;
+}
+.hire-btn{
+  flex-shrink:0;
+  padding:8px 14px;
+  background:rgba(245,158,11,.12);
+  border:1.5px solid rgba(245,158,11,.3);
+  color:var(--amber);
+  border-radius:10px;
+  font-family:var(--sg);font-weight:700;font-size:12px;
+  cursor:pointer;
+  white-space:nowrap;
+  align-self:flex-start;
+  margin-top:2px;
+}
+.active-list{ padding:0 20px; }
+.active-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;
+  background:var(--n7);border:1px solid var(--bord2);
+  border-radius:var(--r12);margin-bottom:8px;
+}
+.active-icon{ font-size:22px;width:36px;text-align:center; }
+.active-name{ font-family:var(--sg);font-size:14px;font-weight:700;color:#fff; }
+.active-sub{ font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:1px; }
+.active-status{
+  margin-left:auto;
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:600;
+  color:var(--green);
+  font-family:var(--sg);
+}
+
+/* ════════════════════════════════════
+   5. APPROVAL CENTER  ← THE SIGNATURE SCREEN
+════════════════════════════════════ */
+.appr-header{
+  padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.appr-count-badge{
+  background:var(--red);
+  color:#fff;
+  border-radius:var(--r99);
+  padding:4px 12px;
+  font-family:var(--sg);font-size:12px;font-weight:800;
+}
+.workflow-card{
+  margin:0 20px 12px;
+  background:var(--n8);
+  border:1px solid rgba(245,158,11,.25);
+  border-radius:var(--r20);
+  overflow:hidden;
+  box-shadow:0 0 32px rgba(245,158,11,.06);
+}
+.wf-card-top{
+  padding:16px 16px 0;
+  display:flex;align-items:center;gap:10px;margin-bottom:12px;
+}
+.wf-source{
+  font-family:var(--sg);font-size:15px;font-weight:700;color:#fff;
+}
+.wf-time{ margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--faint); }
+.actions-list{
+  padding:0 16px;
+  display:flex;flex-direction:column;gap:6px;
+  margin-bottom:14px;
+}
+.action-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;
+  background:var(--n7);
+  border-radius:var(--r12);
+  border:1px solid var(--bord2);
+  position:relative;
+  transition:all .15s;
+}
+.action-row.accepted{
+  border-color:rgba(16,185,129,.35);
+  background:rgba(16,185,129,.06);
+}
+.action-row.rejected{
+  border-color:rgba(239,68,68,.35);
+  background:rgba(239,68,68,.06);
+  opacity:.6;
+}
+.action-num{
+  width:22px;height:22px;flex-shrink:0;
+  background:var(--amber);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sg);font-size:10px;font-weight:800;color:var(--n9);
+  margin-top:1px;
+}
+.action-text{ font-size:12.5px;color:var(--text);line-height:1.5;flex:1; }
+.action-agent{
+  font-family:var(--mono);font-size:9.5px;
+  color:var(--dim);margin-top:3px;
+}
+.swipe-hint{
+  display:flex;align-items:center;gap:4px;
+  font-size:11px;color:var(--faint);
+  padding:0 16px;margin-bottom:10px;
+  font-family:var(--mono);
+}
+.compliance-strip{
+  margin:0 16px 14px;
+  padding:10px 12px;
+  background:rgba(16,185,129,.07);
+  border:1px solid rgba(16,185,129,.25);
+  border-radius:var(--r12);
+  display:flex;align-items:center;gap:8px;
+  font-size:12.5px;color:var(--green);
+}
+.wf-card-btns{
+  border-top:1px solid var(--border);
+  display:flex;
+}
+.wf-btn{
+  flex:1;padding:14px;
+  border:none;background:transparent;
+  font-family:var(--sg);font-weight:700;font-size:14px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.wf-btn-approve{ color:var(--green);border-right:1px solid var(--border); }
+.wf-btn-reject{ color:var(--red); }
+.biometric-confirm{
+  margin:0 20px 12px;
+  padding:18px;
+  background:rgba(245,158,11,.06);
+  border:1px solid rgba(245,158,11,.2);
+  border-radius:var(--r16);
+  text-align:center;
+}
+.bio-confirm-icon{ font-size:36px;margin-bottom:8px; }
+.bio-confirm-text{
+  font-family:var(--sg);font-size:15px;font-weight:700;color:#fff;
+  margin-bottom:4px;
+}
+.bio-confirm-sub{ font-size:12px;color:var(--dim); }
+
+/* ════════════════════════════════════
+   6. NOTIFICATIONS
+════════════════════════════════════ */
+.notif-header{ padding:16px 20px 8px; }
+.notif-section{ padding:0 20px;margin-bottom:6px; }
+.notif-section-label{
+  font-family:var(--mono);font-size:10px;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--faint);
+  padding:8px 0 6px;
+}
+.notif-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.notif-item:last-child{ border-bottom:none; }
+.notif-item.unread .notif-text-title::before{
+  content:'';
+  position:absolute;left:-12px;top:16px;
+  width:6px;height:6px;
+  background:var(--blue);
+  border-radius:50%;
+}
+.notif-icon{
+  width:44px;height:44px;flex-shrink:0;
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  border:1px solid;
+}
+.notif-text-title{
+  font-family:var(--sg);font-size:14px;font-weight:700;color:#fff;
+  margin-bottom:3px;line-height:1.35;position:relative;
+}
+.notif-text-body{
+  font-size:12.5px;color:var(--dim);line-height:1.5;margin-bottom:5px;
+}
+.notif-time{
+  font-family:var(--mono);font-size:10px;color:var(--faint);
+}
+.notif-action{
+  display:inline-block;
+  margin-top:6px;
+  padding:5px 12px;
+  border-radius:var(--r99);
+  font-family:var(--sg);font-size:11px;font-weight:700;
+  cursor:pointer;
+}
+.na-approve{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.3);}
+.na-view{background:var(--n7);color:var(--dim);border:1px solid var(--bord2);}
+
+/* ════════════════════════════════════
+   7. MEMORY SEARCH
+════════════════════════════════════ */
+.search-bar-wrap{ padding:12px 20px 8px; }
+.search-bar{
+  display:flex;align-items:center;gap:10px;
+  background:var(--n7);border:1.5px solid var(--bord2);
+  border-radius:var(--r12);padding:12px 16px;
+}
+.search-icon{ font-size:18px;color:var(--faint); }
+.search-input{
+  flex:1;background:transparent;border:none;outline:none;
+  font-size:15px;color:var(--text);font-family:var(--inter);
+}
+.search-input::placeholder{ color:var(--faint); }
+.filter-strip{
+  display:flex;gap:8px;padding:4px 20px 12px;
+  overflow-x:auto;
+}
+.filter-strip::-webkit-scrollbar{display:none}
+.filter-pill{
+  flex-shrink:0;padding:6px 14px;
+  border-radius:var(--r99);
+  font-family:var(--sg);font-size:12px;font-weight:600;
+  border:1.5px solid var(--bord2);
+  background:transparent;color:var(--dim);cursor:pointer;
+}
+.filter-pill.active{
+  background:rgba(245,158,11,.1);
+  border-color:rgba(245,158,11,.4);color:var(--amber);
+}
+.mem-query-preview{
+  margin:0 20px 12px;
+  background:var(--n7);
+  border:1px solid var(--bord2);
+  border-left:3px solid var(--purple);
+  border-radius:var(--r12);
+  padding:12px 14px;
+  font-family:var(--mono);font-size:11.5px;color:var(--purple);
+}
+.mem-card{
+  margin:0 20px 8px;
+  background:var(--n8);border:1px solid var(--border);
+  border-radius:var(--r16);padding:14px;
+}
+.mem-card-type{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:4px;
+}
+.mem-card-title{
+  font-family:var(--sg);font-size:15px;font-weight:700;color:#fff;
+  margin-bottom:4px;
+}
+.mem-card-body{ font-size:12.5px;color:var(--dim);line-height:1.55; }
+.mem-score-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:10px;
+}
+.mem-score{
+  font-family:var(--mono);font-size:10px;color:var(--green);
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);
+  padding:2px 8px;border-radius:var(--r99);
+}
+.mem-date{ font-family:var(--mono);font-size:10px;color:var(--faint); }
+
+/* ════════════════════════════════════
+   8. BUSINESS INTELLIGENCE
+════════════════════════════════════ */
+.intel-header{ padding:16px 20px 12px; }
+.insight-card{
+  margin:0 20px 10px;
+  background:var(--n8);
+  border:1px solid var(--border);
+  border-top:3px solid var(--ic-color,var(--amber));
+  border-radius:var(--r16);
+  padding:16px;
+}
+.ic-sev{
+  font-family:var(--mono);font-size:9.5px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--ic-color,var(--amber));
+  margin-bottom:8px;display:block;
+}
+.ic-title{
+  font-family:var(--sg);font-size:16px;font-weight:700;color:#fff;
+  margin-bottom:6px;line-height:1.3;
+}
+.ic-body{ font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:10px; }
+.ic-action{
+  font-size:12.5px;font-weight:600;
+  color:var(--ic-color,var(--amber));
+}
+.ic-action::before{content:'→ ';}
+.sparkline-wrap{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+.sparkline-label{
+  font-family:var(--mono);font-size:9.5px;color:var(--faint);
+  letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;
+}
+.sparkline{
+  display:flex;align-items:flex-end;gap:3px;height:32px;
+}
+.spark-bar{
+  flex:1;border-radius:3px 3px 0 0;
+  background:var(--spark-color,var(--amber));
+  opacity:.7;
+  transition:opacity .2s;
+}
+.spark-bar:hover{opacity:1;}
+
+/* ════════════════════════════════════
+   9. REPORTS
+════════════════════════════════════ */
+.reports-header{ padding:16px 20px 12px; }
+.period-toggle{
+  display:flex;gap:6px;
+  margin:0 20px 16px;
+  background:var(--n7);
+  border-radius:var(--r12);
+  padding:4px;
+}
+.period-btn{
+  flex:1;padding:8px;
+  border-radius:var(--r8);
+  border:none;
+  font-family:var(--sg);font-size:12px;font-weight:700;
+  cursor:pointer;
+}
+.period-btn.active{
+  background:var(--amber);color:var(--n9);
+}
+.period-btn:not(.active){
+  background:transparent;color:var(--dim);
+}
+.report-kpi-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;padding:0 20px;margin-bottom:16px;
+}
+.rk-card{
+  background:var(--n8);border:1px solid var(--border);
+  border-radius:var(--r16);padding:16px;
+}
+.rk-val{
+  font-family:var(--sg);font-size:26px;font-weight:800;
+  line-height:1;margin-bottom:4px;
+}
+.rk-label{ font-size:11px;color:var(--dim); }
+.rk-trend{
+  font-size:11px;font-weight:600;margin-top:6px;
+  display:flex;align-items:center;gap:3px;
+}
+.trend-up{ color:var(--green); }
+.trend-down{ color:var(--red); }
+.report-card{
+  margin:0 20px 10px;
+  background:var(--n8);border:1px solid var(--border);
+  border-radius:var(--r16);padding:16px;
+  display:flex;align-items:center;gap:14px;
+}
+.report-icon{
+  width:44px;height:44px;flex-shrink:0;
+  border-radius:12px;
+  background:var(--n7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+}
+.report-name{ font-family:var(--sg);font-size:14px;font-weight:700;color:#fff;margin-bottom:3px; }
+.report-meta{ font-family:var(--mono);font-size:10px;color:var(--faint); }
+.report-action{
+  margin-left:auto;
+  padding:7px 12px;
+  background:var(--n7);
+  border:1px solid var(--bord2);
+  border-radius:var(--r8);
+  font-family:var(--sg);font-size:11px;font-weight:700;
+  color:var(--dim);cursor:pointer;
+}
+.bar-chart{
+  padding:0 20px 16px;
+}
+.bar-chart-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:8px;
+}
+.bar-chart-label{
+  font-family:var(--mono);font-size:10px;color:var(--dim);
+  width:70px;text-align:right;flex-shrink:0;
+}
+.bar-chart-track{
+  flex:1;height:20px;background:var(--n6);
+  border-radius:4px;overflow:hidden;
+}
+.bar-chart-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--bar-c,var(--blue)),var(--bar-c2,var(--purple)));
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:flex-end;
+  padding-right:8px;
+}
+.bar-chart-val{
+  font-family:var(--mono);font-size:10px;color:#fff;font-weight:600;
+}
+
+/* ════════════════════════════════════
+   10. PROFILE & SETTINGS
+════════════════════════════════════ */
+.profile-header{
+  background:linear-gradient(160deg,var(--n8),var(--n7));
+  padding:24px 20px 28px;
+  display:flex;align-items:center;gap:16px;
+  border-bottom:1px solid var(--border);
+}
+.profile-avatar{
+  width:64px;height:64px;
+  border-radius:20px;
+  background:linear-gradient(135deg,var(--blue-d),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--sg);font-size:24px;font-weight:800;color:#fff;
+  border:2px solid rgba(255,255,255,.1);
+  box-shadow:0 8px 24px rgba(0,0,0,.3);
+}
+.profile-name{ font-family:var(--sg);font-size:20px;font-weight:800;color:#fff;margin-bottom:2px; }
+.profile-role{ font-size:13px;color:var(--dim); }
+.profile-tags{ display:flex;gap:6px;margin-top:8px;flex-wrap:wrap; }
+.settings-group{ padding:0 20px;margin-bottom:6px; }
+.settings-label{
+  font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--faint);padding:12px 0 8px;
+}
+.settings-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+}
+.settings-item:last-child{ border-bottom:none; }
+.settings-icon{
+  width:36px;height:36px;
+  border-radius:10px;
+  background:var(--n7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;
+  flex-shrink:0;
+}
+.settings-text{ flex:1; }
+.settings-name{ font-family:var(--sg);font-size:14px;font-weight:600;color:#fff; }
+.settings-sub{ font-size:12px;color:var(--faint);margin-top:1px; }
+.settings-right{ font-size:13px;color:var(--faint); }
+.settings-toggle{
+  width:44px;height:26px;
+  background:var(--green);
+  border-radius:var(--r99);
+  position:relative;cursor:pointer;
+}
+.settings-toggle::after{
+  content:'';
+  position:absolute;
+  right:3px;top:3px;
+  width:20px;height:20px;
+  background:#fff;
+  border-radius:50%;
+  box-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.settings-toggle.off{
+  background:var(--n5);
+}
+.settings-toggle.off::after{
+  right:auto;left:3px;
+}
+.danger-section{ padding:0 20px 30px; }
+.danger-btn{
+  padding:14px;
+  background:rgba(239,68,68,.08);
+  border:1.5px solid rgba(239,68,68,.2);
+  border-radius:var(--r12);
+  display:flex;align-items:center;gap:10px;
+  cursor:pointer;width:100%;
+  font-family:var(--sg);font-size:14px;font-weight:700;color:var(--red);
+  margin-bottom:10px;
+}
+
+/* ════════════════════════════════════
+   ANNOTATIONS
+════════════════════════════════════ */
+.annotation-block{
+  background:rgba(245,158,11,.05);
+  border:1px solid rgba(245,158,11,.15);
+  border-radius:var(--r16);
+  padding:16px 18px;
+  max-width:390px;
+  margin-top:12px;
+}
+.ann-title{
+  font-family:var(--sg);font-size:13px;font-weight:700;color:var(--amber);
+  margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.ann-list{ list-style:none;display:flex;flex-direction:column;gap:6px; }
+.ann-list li{
+  font-size:12px;color:var(--dim);line-height:1.5;
+  display:flex;gap:7px;
+}
+.ann-list li::before{content:'◆';color:var(--amber);font-size:8px;margin-top:3px;flex-shrink:0;}
+
+/* ════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════ */
+@media(max-width:860px){
+  .screens-row{ grid-template-columns:390px; }
+  .phone{ width:100%;max-width:390px; }
+  body{ padding:24px 12px 48px; }
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;}
+}
+</style>
+</head>
+<body>
+
+<div class="page-title">Sovereign AI Workforce</div>
+<div class="page-sub">◈ Mobile Companion App · 10 Screens · Enterprise UX</div>
+
+<div class="page-nav">
+  <a href="#screen-login"    class="nav-pill">Login</a>
+  <a href="#screen-dash"     class="nav-pill">Dashboard</a>
+  <a href="#screen-monitor"  class="nav-pill">Monitoring</a>
+  <a href="#screen-builder"  class="nav-pill">Builder</a>
+  <a href="#screen-approval" class="nav-pill">Approval ★</a>
+  <a href="#screen-notif"    class="nav-pill">Notifications</a>
+  <a href="#screen-memory"   class="nav-pill">Memory</a>
+  <a href="#screen-intel"    class="nav-pill">Intel</a>
+  <a href="#screen-reports"  class="nav-pill">Reports</a>
+  <a href="#screen-profile"  class="nav-pill">Profile</a>
+</div>
+
+<div class="screens-row">
+
+<!-- ══════════════════════════════════
+     1. LOGIN
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-login">
+  <div class="screen-label">01 — Login</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span>●●●</span><span>WiFi</span><span style="color:var(--amber);">⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="login-bg" style="position:relative;padding-top:40px;">
+        <div class="login-glow"></div>
+        <div class="login-mark">◈</div>
+        <div class="login-title">Sovereign AI<br>Workforce</div>
+        <div class="login-sub">Executive Command Center</div>
+
+        <div style="padding:0 4px;">
+          <label class="input-label">Work email</label>
+          <div class="input-wrap">
+            <span class="input-icon">✉</span>
+            <input class="input-field input-field-icon" type="email" value="fateh@usthb.dz" placeholder="you@company.com">
+          </div>
+          <label class="input-label">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input class="input-field input-field-icon" type="password" value="••••••••••" placeholder="••••••••">
+          </div>
+          <button class="btn-primary" style="margin-bottom:10px;">Sign in →</button>
+          <div style="text-align:right;margin-bottom:16px;">
+            <span style="font-size:13px;color:var(--amber);cursor:pointer;">Forgot password?</span>
+          </div>
+          <div class="login-biometric">
+            <div style="font-size:12px;color:var(--faint);margin-bottom:12px;">— or unlock with —</div>
+            <div style="display:flex;justify-content:center;gap:20px;">
+              <div>
+                <div class="bio-btn">👆</div>
+                <div class="bio-label">Touch ID</div>
+              </div>
+              <div>
+                <div class="bio-btn">🆔</div>
+                <div class="bio-label">Face ID</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="login-footer">
+          <div style="display:flex;align-items:center;gap:6px;justify-content:center;margin-bottom:8px;">
+            <span class="pulse-dot"></span>
+            <span>6 agents online · All systems operational</span>
+          </div>
+          <div style="color:var(--faint);font-size:11px;">
+            SOC 2 · End-to-end encrypted · GDPR compliant
+          </div>
+          <div style="margin-top:12px;font-size:12px;">
+            New here? <a href="#" style="color:var(--amber);">Request access →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>Logomark with amber glow establishes brand immediately — the app opens on a full-brand moment</li>
+      <li>Biometric authentication is surfaced as primary — Touch ID / Face ID for executive speed</li>
+      <li>Status strip at bottom signals system health before the user is even logged in — builds trust</li>
+      <li>No "Demo mode" or other options — clean, single-purpose login for authorized users only</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     2. DASHBOARD
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-dash">
+  <div class="screen-label">02 — Dashboard</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span class="pulse-dot"></span><span>Live</span><span style="color:var(--amber);">⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="dash-header">
+        <div>
+          <div class="dash-greeting">Good morning, Fateh 🇩🇿</div>
+          <div class="dash-name">Mission Control</div>
+        </div>
+        <div class="notif-btn">
+          🔔<div class="notif-badge">3</div>
+        </div>
+      </div>
+
+      <!-- Active agents strip -->
+      <div class="agent-strip">
+        <div class="agent-pill"><div class="agent-dot amber"></div>Email Agent <span style="font-family:var(--mono);font-size:10px;color:var(--amber);">running</span></div>
+        <div class="agent-pill"><div class="agent-dot"></div>Calendar</div>
+        <div class="agent-pill"><div class="agent-dot"></div>Finance</div>
+        <div class="agent-pill"><div class="agent-dot"></div>Research</div>
+        <div class="agent-pill"><div class="agent-dot"></div>Compliance</div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-scroll">
+        <div class="kpi-card" style="--kpi-color:var(--amber);">
+          <div class="kpi-val">12</div>
+          <div class="kpi-lab">Tasks completed today</div>
+        </div>
+        <div class="kpi-card" style="--kpi-color:var(--green);">
+          <div class="kpi-val">6.4h</div>
+          <div class="kpi-lab">Hours reclaimed this week</div>
+        </div>
+        <div class="kpi-card" style="--kpi-color:var(--blue);">
+          <div class="kpi-val">847</div>
+          <div class="kpi-lab">Memory records active</div>
+        </div>
+        <div class="kpi-card" style="--kpi-color:var(--red);">
+          <div class="kpi-val">3</div>
+          <div class="kpi-lab">Awaiting your approval</div>
+        </div>
+      </div>
+
+      <!-- Approval alert -->
+      <div style="padding:12px 20px 4px;">
+        <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:var(--r16);padding:14px 16px;display:flex;align-items:center;gap:12px;">
+          <div style="font-size:24px;">🧭</div>
+          <div style="flex:1;">
+            <div style="font-family:var(--sg);font-size:14px;font-weight:700;color:var(--amber);margin-bottom:2px;">3 workflows need approval</div>
+            <div style="font-size:12px;color:var(--dim);">Northwind meeting · Invoice #0847 · Weekly report</div>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:var(--amber);font-family:var(--sg);cursor:pointer;">Review →</div>
+        </div>
+      </div>
+
+      <!-- Activity feed -->
+      <div style="padding:12px 20px 4px;">
+        <div style="font-family:var(--sg);font-size:15px;font-weight:700;color:#fff;margin-bottom:10px;">Recent activity</div>
+      </div>
+      <div class="activity-list">
+        <div class="activity-item">
+          <div class="act-icon">📨</div>
+          <div>
+            <div class="act-title">Email Agent drafted reply to Northwind Logistics</div>
+            <div class="act-sub">2 minutes ago · Email Agent</div>
+          </div>
+          <span class="badge badge-amber" style="flex-shrink:0;">pending</span>
+        </div>
+        <div class="activity-item">
+          <div class="act-icon">💰</div>
+          <div>
+            <div class="act-title">Finance Agent logged invoice #INV-2026-0847 · $1,240</div>
+            <div class="act-sub">14 minutes ago · Finance Agent</div>
+          </div>
+          <span class="badge badge-green" style="flex-shrink:0;">done</span>
+        </div>
+        <div class="activity-item">
+          <div class="act-icon">📊</div>
+          <div>
+            <div class="act-title">Weekly report generated and ready for your review</div>
+            <div class="act-sub">1 hour ago · Reporting Agent</div>
+          </div>
+          <span class="badge badge-amber" style="flex-shrink:0;">pending</span>
+        </div>
+        <div class="activity-item">
+          <div class="act-icon">🛡️</div>
+          <div>
+            <div class="act-title">Compliance check passed on 3 external communications</div>
+            <div class="act-sub">2 hours ago · Compliance Agent</div>
+          </div>
+          <span class="badge badge-green" style="flex-shrink:0;">approved</span>
+        </div>
+        <div class="activity-item">
+          <div class="act-icon">🔍</div>
+          <div>
+            <div class="act-title">Memory updated — 2 new records from Northwind QBR</div>
+            <div class="act-sub">3 hours ago · Research Agent</div>
+          </div>
+          <span class="badge badge-blue" style="flex-shrink:0;">saved</span>
+        </div>
+      </div>
+    </div>
+    <!-- Tab bar -->
+    <div class="tab-bar">
+      <div class="tab-item active"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item">
+        <div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot"></div></div>
+        <span class="tab-text">Approve</span>
+      </div>
+      <div class="tab-item"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>Live agent strip at the top is the heartbeat — executives see system status before anything else</li>
+      <li>Horizontal KPI scroll matches thumb-reach pattern; most critical metric (approvals) is card 4</li>
+      <li>Amber alert banner for pending approvals — this is always the most urgent action on the dashboard</li>
+      <li>Activity feed ordered by recency with status badges — glanceable in under 5 seconds</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     3. AGENT MONITORING
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-monitor">
+  <div class="screen-label">03 — Agent Monitoring</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span>●●●</span><span style="color:var(--green);">● LIVE</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="mon-header">
+        <div class="back-btn">←</div>
+        <div class="screen-title">Agent Monitoring</div>
+        <div class="badge badge-green" style="margin-left:auto;"><span class="pulse-dot" style="width:5px;height:5px;margin-right:2px;"></span>7 online</div>
+      </div>
+
+      <!-- Health cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 20px 16px;">
+        <div style="background:var(--n7);border:1px solid var(--bord2);border-radius:var(--r12);padding:12px;text-align:center;">
+          <div style="font-family:var(--sg);font-size:20px;font-weight:800;color:var(--green);">98.4%</div>
+          <div style="font-size:10px;color:var(--dim);">Uptime</div>
+        </div>
+        <div style="background:var(--n7);border:1px solid var(--bord2);border-radius:var(--r12);padding:12px;text-align:center;">
+          <div style="font-family:var(--sg);font-size:20px;font-weight:800;color:var(--amber);">0.8s</div>
+          <div style="font-size:10px;color:var(--dim);">Avg latency</div>
+        </div>
+        <div style="background:var(--n7);border:1px solid var(--bord2);border-radius:var(--r12);padding:12px;text-align:center;">
+          <div style="font-family:var(--sg);font-size:20px;font-weight:800;color:var(--blue);">0.4%</div>
+          <div style="font-size:10px;color:var(--dim);">Error rate</div>
+        </div>
+      </div>
+
+      <div style="padding:0 20px 8px;font-family:var(--sg);font-size:14px;font-weight:700;color:#fff;">Agent status</div>
+      <!-- Agent rows -->
+      <div class="run-log-item" style="border-left:3px solid var(--amber);">
+        <div style="font-size:20px;width:32px;text-align:center;">🧭</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--sg);font-size:13px;font-weight:700;color:#fff;">Executive Agent</div>
+          <div class="rl-bar-wrap">
+            <div class="rl-bar-track"><div class="rl-bar-fill" style="width:92%;--bar-color:var(--amber);"></div></div>
+            <div class="lat-chip">23 runs · 0.6s avg</div>
+          </div>
+        </div>
+        <span class="badge badge-amber">active</span>
+      </div>
+      <div class="run-log-item">
+        <div style="font-size:20px;width:32px;text-align:center;">📨</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--sg);font-size:13px;font-weight:700;color:#fff;">Email Agent</div>
+          <div class="rl-bar-wrap">
+            <div class="rl-bar-track"><div class="rl-bar-fill" style="width:78%;--bar-color:var(--blue);"></div></div>
+            <div class="lat-chip">18 runs · 0.9s avg</div>
+          </div>
+        </div>
+        <span class="badge badge-amber" style="border-color:rgba(245,158,11,.3);color:var(--amber);background:rgba(245,158,11,.12);">running</span>
+      </div>
+      <div class="run-log-item">
+        <div style="font-size:20px;width:32px;text-align:center;">📅</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--sg);font-size:13px;font-weight:700;color:#fff;">Calendar Agent</div>
+          <div class="rl-bar-wrap">
+            <div class="rl-bar-track"><div class="rl-bar-fill" style="width:55%;--bar-color:var(--purple);"></div></div>
+            <div class="lat-chip">11 runs · 1.1s avg</div>
+          </div>
+        </div>
+        <span class="badge badge-green">idle</span>
+      </div>
+      <div class="run-log-item">
+        <div style="font-size:20px;width:32px;text-align:center;">💰</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--sg);font-size:13px;font-weight:700;color:#fff;">Finance Agent</div>
+          <div class="rl-bar-wrap">
+            <div class="rl-bar-track"><div class="rl-bar-fill" style="width:44%;--bar-color:var(--green);"></div></div>
+            <div class="lat-chip">9 runs · 0.8s avg</div>
+          </div>
+        </div>
+        <span class="badge badge-green">idle</span>
+      </div>
+      <div class="run-log-item">
+        <div style="font-size:20px;width:32px;text-align:center;">📊</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--sg);font-size:13px;font-weight:700;color:#fff;">Reporting Agent</div>
+          <div class="rl-bar-wrap">
+            <div class="rl-bar-track"><div class="rl-bar-fill" style="width:61%;--bar-color:var(--amber);"></div></div>
+            <div class="lat-chip">13 runs · 1.4s avg</div>
+          </div>
+        </div>
+        <span class="badge badge-green">idle</span>
+      </div>
+      <div class="run-log-item">
+        <div style="font-size:20px;width:32px;text-align:center;">🔍</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--sg);font-size:13px;font-weight:700;color:#fff;">Research Agent</div>
+          <div class="rl-bar-wrap">
+            <div class="rl-bar-track"><div class="rl-bar-fill" style="width:38%;--bar-color:var(--blue-l);"></div></div>
+            <div class="lat-chip">8 runs · 0.5s avg</div>
+          </div>
+        </div>
+        <span class="badge badge-green">idle</span>
+      </div>
+      <div class="run-log-item" style="border-bottom:none;">
+        <div style="font-size:20px;width:32px;text-align:center;">🛡️</div>
+        <div style="flex:1;">
+          <div style="font-family:var(--sg);font-size:13px;font-weight:700;color:#fff;">Compliance Agent</div>
+          <div class="rl-bar-wrap">
+            <div class="rl-bar-track"><div class="rl-bar-fill" style="width:29%;--bar-color:var(--red);"></div></div>
+            <div class="lat-chin">6 runs · 0.7s avg</div>
+          </div>
+        </div>
+        <span class="badge badge-green">idle</span>
+      </div>
+
+      <div style="padding:16px 20px 8px;font-family:var(--sg);font-size:14px;font-weight:700;color:#fff;">Recent run log</div>
+      <div style="padding:0 20px;">
+        <div style="background:var(--n7);border-radius:var(--r12);padding:12px 14px;font-family:var(--mono);font-size:11px;line-height:2;color:var(--dim);">
+          <div><span style="color:var(--green);">09:39:14</span> executive — meeting-request — <span style="color:var(--amber);">done</span> — 0.6s</div>
+          <div><span style="color:var(--green);">09:38:55</span> compliance — meeting-request — <span style="color:var(--green);">approved</span> — 0.7s</div>
+          <div><span style="color:var(--green);">09:38:42</span> reporting — meeting-request — <span style="color:var(--green);">done</span> — 1.4s</div>
+          <div><span style="color:var(--green);">09:38:28</span> calendar — meeting-request — <span style="color:var(--green);">done</span> — 1.1s</div>
+          <div><span style="color:var(--green);">09:38:09</span> research — meeting-request — <span style="color:var(--green);">done</span> — 0.5s</div>
+          <div><span style="color:var(--green);">09:37:54</span> email — meeting-request — <span style="color:var(--green);">done</span> — 0.9s</div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item"><div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot"></div></div><span class="tab-text">Approve</span></div>
+      <div class="tab-item active"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>3 health metrics (uptime, latency, error rate) visible above the fold — NOC-style dashboard for ops teams</li>
+      <li>Bar visualization shows relative run volume per agent — the longer the bar, the more active</li>
+      <li>Live monospace run log at the bottom feels like a real server terminal — technical credibility for buyers</li>
+      <li>Color-coded left border on the running agent (amber) distinguishes it from idle agents (no border)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     4. WORKFORCE BUILDER
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-builder">
+  <div class="screen-label">04 — Workforce Builder</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span>●●●</span><span style="color:var(--amber);">⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="builder-top">
+        <div class="eyebrow">Self-service provisioning</div>
+        <div class="section-title">Workforce Builder</div>
+        <div class="section-sub">Hire a digital employee in seconds. Each role deploys the right agent stack automatically.</div>
+      </div>
+
+      <div style="padding:0 20px 8px;font-family:var(--sg);font-size:13px;font-weight:700;color:var(--dim);">AVAILABLE ROLES</div>
+      <div class="role-card">
+        <div class="role-icon">🧭</div>
+        <div style="flex:1;">
+          <div class="role-name">Project Manager</div>
+          <div class="role-desc">Coordinates priorities, runs status checks, prepares stakeholder updates.</div>
+          <div class="role-agents">
+            <div class="agent-chip" style="color:var(--amber);border-color:rgba(245,158,11,.3);">Executive</div>
+            <div class="agent-chip" style="color:var(--amber);border-color:rgba(245,158,11,.3);">Reporting</div>
+            <div class="agent-chip" style="color:var(--purple);border-color:rgba(139,92,246,.3);">Calendar</div>
+          </div>
+        </div>
+        <button class="hire-btn">+ Hire</button>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">💰</div>
+        <div style="flex:1;">
+          <div class="role-name">Accountant</div>
+          <div class="role-desc">Tracks invoices, flags anomalies, prepares financial summaries monthly.</div>
+          <div class="role-agents">
+            <div class="agent-chip" style="color:var(--green);border-color:rgba(16,185,129,.3);">Finance</div>
+            <div class="agent-chip" style="color:var(--amber);border-color:rgba(245,158,11,.3);">Reporting</div>
+            <div class="agent-chip" style="color:var(--red);border-color:rgba(239,68,68,.3);">Compliance</div>
+          </div>
+        </div>
+        <button class="hire-btn">+ Hire</button>
+      </div>
+      <div class="role-card">
+        <div class="role-icon">📨</div>
+        <div style="flex:1;">
+          <div class="role-name">Front Desk</div>
+          <div class="role-desc">Triages incoming mail, schedules meetings, drafts professional replies.</div>
+          <div class="role-agents">
+            <div class="agent-chip" style="color:var(--blue);border-color:rgba(59,130,246,.3);">Email</div>
+            <div class="agent-chip" style="color:var(--purple);border-color:rgba(139,92,246,.3);">Calendar</div>
+            <div class="agent-chip" style="color:var(--blue-l);border-color:rgba(147,197,253,.3);">Research</div>
+          </div>
+        </div>
+        <button class="hire-btn">+ Hire</button>
+      </div>
+
+      <div style="padding:12px 20px 8px;font-family:var(--sg);font-size:13px;font-weight:700;color:var(--dim);">ACTIVE WORKFORCE</div>
+      <div class="active-list">
+        <div class="active-item">
+          <div class="active-icon">📊</div>
+          <div>
+            <div class="active-name">Data Analyst</div>
+            <div class="active-sub">Research · Reporting · Compliance · activated 2 days ago</div>
+          </div>
+          <div class="active-status"><span class="pulse-dot" style="width:5px;height:5px;"></span>active</div>
+        </div>
+        <div class="active-item">
+          <div class="active-icon">🧭</div>
+          <div>
+            <div class="active-name">Project Manager</div>
+            <div class="active-sub">Executive · Reporting · Calendar · activated 5 days ago</div>
+          </div>
+          <div class="active-status"><span class="pulse-dot" style="width:5px;height:5px;"></span>active</div>
+        </div>
+      </div>
+
+      <div style="padding:12px 20px 20px;">
+        <button class="btn-ghost">⊕ Build a custom agent</button>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item"><div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot"></div></div><span class="tab-text">Approve</span></div>
+      <div class="tab-item active"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>Role cards use a "hire" metaphor — you're hiring an employee, not enabling a feature</li>
+      <li>Agent chips in each card show exactly which specialists will be deployed — technical transparency</li>
+      <li>Active workforce at the bottom mirrors the sidebar in the desktop app — same mental model</li>
+      <li>"Build a custom agent" ghost button is secondary — onboarding path, not primary CTA</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     5. APPROVAL CENTER ★ SIGNATURE
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-approval">
+  <div class="screen-label">05 — Approval Center ★</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span style="color:var(--red);">● 3 pending</span><span>⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="appr-header">
+        <div>
+          <div class="eyebrow">Human-in-the-loop</div>
+          <div class="screen-title">Approval Center</div>
+        </div>
+        <div class="appr-count-badge">3 pending</div>
+      </div>
+
+      <!-- Workflow card 1 — Meeting request -->
+      <div class="workflow-card">
+        <div class="wf-card-top">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">📨</div>
+          <div>
+            <div class="wf-source">Meeting request · Northwind</div>
+            <div style="font-size:11px;color:var(--dim);">meeting-request pipeline · 6 agents</div>
+          </div>
+          <div class="wf-time">2 min ago</div>
+        </div>
+
+        <div class="swipe-hint">← swipe each action to override individually →</div>
+
+        <div class="actions-list">
+          <div class="action-row accepted">
+            <div class="action-num">1</div>
+            <div>
+              <div class="action-text">📅 <strong>Calendar Agent</strong> — Create "Northwind Q3 Sync" Thu Jun 19, 10:00 AM · invite sarah.tan@northwindlogistics.com</div>
+              <div class="action-agent">Calendar Agent · accepted</div>
+            </div>
+            <span style="font-size:16px;color:var(--green);flex-shrink:0;">✓</span>
+          </div>
+          <div class="action-row">
+            <div class="action-num">2</div>
+            <div>
+              <div class="action-text">📨 <strong>Email Agent</strong> — Reply to Sarah confirming Thu 10am, attach Q2 recap document</div>
+              <div class="action-agent">Email Agent · awaiting</div>
+            </div>
+          </div>
+          <div class="action-row rejected">
+            <div class="action-num">3</div>
+            <div>
+              <div class="action-text">📊 <strong>Reporting Agent</strong> — Generate and attach Q2 delivery metrics report to the email</div>
+              <div class="action-agent">Reporting Agent · overridden</div>
+            </div>
+            <span style="font-size:16px;color:var(--red);flex-shrink:0;">✗</span>
+          </div>
+        </div>
+
+        <div class="compliance-strip">
+          <span style="font-size:16px;">🛡️</span>
+          <span><strong>Compliance:</strong> APPROVED — no policy concerns flagged</span>
+        </div>
+
+        <div class="wf-card-btns">
+          <button class="wf-btn wf-btn-approve">✓ Approve all</button>
+          <button class="wf-btn wf-btn-reject">✗ Reject</button>
+        </div>
+      </div>
+
+      <!-- Biometric confirm prompt -->
+      <div class="biometric-confirm">
+        <div class="bio-confirm-icon">👆</div>
+        <div class="bio-confirm-text">Confirm with Touch ID</div>
+        <div class="bio-confirm-sub">Approving Actions 1 and 2 of 3. Action 3 was overridden.</div>
+      </div>
+
+      <!-- Workflow card 2 — compact -->
+      <div class="workflow-card" style="opacity:.8;">
+        <div class="wf-card-top">
+          <div style="width:36px;height:36px;border-radius:10px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">💰</div>
+          <div>
+            <div class="wf-source">Invoice #INV-2026-0847</div>
+            <div style="font-size:11px;color:var(--dim);">overdue-invoice pipeline · 5 agents</div>
+          </div>
+          <div class="wf-time">14 min ago</div>
+        </div>
+        <div style="padding:0 16px 14px;font-size:13px;color:var(--dim);">Finance Agent flagged $1,240 overdue (CloudStack). Escalation + Sheets row pending your approval.</div>
+        <div class="wf-card-btns">
+          <button class="wf-btn wf-btn-approve">✓ Approve</button>
+          <button class="wf-btn wf-btn-reject">✗ Reject</button>
+        </div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item active"><div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot"></div></div><span class="tab-text">Approve</span></div>
+      <div class="tab-item"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Signature Screen — Design Notes</div>
+    <ul class="ann-list">
+      <li><strong>Per-action override:</strong> Each of the 3 action items can be individually swiped to accept (green) or reject (red). Action 3 was overridden — this is the unique interaction pattern no competitor has built</li>
+      <li><strong>Biometric confirm:</strong> Final approval requires Touch ID / Face ID — not just a tap. This is the trust layer that makes executives comfortable delegating to AI</li>
+      <li><strong>Compliance strip embedded:</strong> Guardrail result is always visible before the user can approve — they can see the check passed</li>
+      <li><strong>Card stack UX:</strong> Multiple pending workflows stack below — executives work through them in sequence, like an inbox zero interaction model</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     6. NOTIFICATIONS
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-notif">
+  <div class="screen-label">06 — Notifications</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span>●●●</span><span style="color:var(--amber);">⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="notif-header">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div class="screen-title">Notifications</div>
+          <span style="font-size:13px;color:var(--amber);cursor:pointer;font-family:var(--sg);font-weight:600;">Mark all read</span>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:4px;">3 unread · Push and in-app</div>
+      </div>
+
+      <div class="notif-section">
+        <div class="notif-section-label">Just now</div>
+        <div class="notif-item unread">
+          <div class="notif-icon" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);">🧭</div>
+          <div>
+            <div class="notif-text-title">Workflow ready for approval</div>
+            <div class="notif-text-body">The Executive Agent has completed the Northwind Logistics meeting-request pipeline. 3 actions pending your approval.</div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <div class="notif-action na-approve">✓ Approve now</div>
+              <div class="notif-action na-view">View plan</div>
+            </div>
+            <div class="notif-time">2 minutes ago</div>
+          </div>
+        </div>
+        <div class="notif-item unread">
+          <div class="notif-icon" style="background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25);">🛡️</div>
+          <div>
+            <div class="notif-text-title">Compliance flag — review needed</div>
+            <div class="notif-text-body">The Compliance Agent flagged a potential pricing commitment in a draft reply to TechPartners Corp. Review required before sending.</div>
+            <div class="notif-action na-view" style="margin-top:8px;display:inline-block;">Review flag →</div>
+            <div class="notif-time">8 minutes ago</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notif-section">
+        <div class="notif-section-label">Today</div>
+        <div class="notif-item unread">
+          <div class="notif-icon" style="background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);">✅</div>
+          <div>
+            <div class="notif-text-title">Workflow executed successfully</div>
+            <div class="notif-text-body">Invoice #INV-2026-0847 ($1,240) logged to expense tracking sheet. Overdue notice sent to CloudStack AP.</div>
+            <div class="notif-time">14 minutes ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" style="background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.25);">📊</div>
+          <div>
+            <div class="notif-text-title">Weekly report generated</div>
+            <div class="notif-text-body">Reporting Agent has generated the Week 24 executive summary. Revenue $58.2K vs $60K target.</div>
+            <div class="notif-action na-view" style="margin-top:8px;display:inline-block;">Open report →</div>
+            <div class="notif-time">1 hour ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" style="background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.25);">💾</div>
+          <div>
+            <div class="notif-text-title">Memory updated — 2 new records</div>
+            <div class="notif-text-body">Research Agent saved "Northwind Q3 priorities" and "Updated writing tone preference" to long-term memory.</div>
+            <div class="notif-time">3 hours ago</div>
+          </div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-icon" style="background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.25);">🤖</div>
+          <div>
+            <div class="notif-text-title">Digital employee activated</div>
+            <div class="notif-text-body">"Data Analyst" role is now live — Research, Reporting, and Compliance agents are linked and ready.</div>
+            <div class="notif-time">2 days ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item"><div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot" style="background:var(--red);"></div></div><span class="tab-text">Approve</span></div>
+      <div class="tab-item"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item active"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>Inline "Approve now" action in the notification eliminates the need to navigate — zero-friction approval from the notification center</li>
+      <li>Color-coded notification icons match agent colors — executives build visual pattern recognition quickly</li>
+      <li>Unread state uses a position-absolute blue dot on the title (not a colored background) — subtle, professional</li>
+      <li>Grouped by time (Just now / Today) — matches native iOS/Android notification patterns</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     7. MEMORY SEARCH
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-memory">
+  <div class="screen-label">07 — Memory Search</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span>●●●</span><span style="color:var(--amber);">⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div style="padding:16px 20px 8px;">
+        <div class="eyebrow">Long-term memory · 847 records</div>
+        <div class="section-title">Memory Search</div>
+      </div>
+      <div class="search-bar-wrap">
+        <div class="search-bar">
+          <div class="search-icon">🔍</div>
+          <input class="search-input" value="Northwind meeting preferences" placeholder="Search your organization's memory...">
+          <span style="font-size:14px;color:var(--amber);cursor:pointer;">⌘K</span>
+        </div>
+      </div>
+      <div class="filter-strip">
+        <div class="filter-pill active">All</div>
+        <div class="filter-pill">Clients</div>
+        <div class="filter-pill">Meetings</div>
+        <div class="filter-pill">Decisions</div>
+        <div class="filter-pill">Style</div>
+        <div class="filter-pill">Workflows</div>
+      </div>
+
+      <div class="mem-query-preview">
+        Semantic query: "Northwind meeting preferences"<br>
+        <span style="color:var(--dim);">→ 3 records retrieved · cosine similarity</span>
+      </div>
+
+      <div class="mem-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <div class="mem-card-type" style="color:var(--blue);">CLIENT</div>
+          <span class="mem-score">0.94 match</span>
+        </div>
+        <div class="mem-card-title">Northwind Logistics</div>
+        <div class="mem-card-body">Key client. Sarah Tan (Ops Director). Prefers concise, data-first emails. Formal tone. Last QBR: warehouse automation rollout, satisfied with Q1 delivery times.</div>
+        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+          <span class="badge badge-blue" style="font-size:9px;">client</span>
+          <span class="badge badge-blue" style="font-size:9px;">northwind</span>
+          <span class="badge badge-blue" style="font-size:9px;">sarah tan</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);">
+          <span class="mem-date">Saved May 2, 2026</span>
+          <span style="font-size:12px;color:var(--amber);cursor:pointer;font-family:var(--sg);font-weight:600;">Edit →</span>
+        </div>
+      </div>
+
+      <div class="mem-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <div class="mem-card-type" style="color:var(--purple);">MEETING</div>
+          <span class="mem-score">0.81 match</span>
+        </div>
+        <div class="mem-card-title">Northwind QBR — May 28, 2026</div>
+        <div class="mem-card-body">Discussed warehouse automation Phase 1 completion. Satisfied with delivery metrics. Q3 priorities: Phase 2 launch, sustainability reporting integration. Next sync scheduled: June 19.</div>
+        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+          <span class="badge badge-purple" style="font-size:9px;">meeting</span>
+          <span class="badge badge-purple" style="font-size:9px;">qbr</span>
+          <span class="badge badge-purple" style="font-size:9px;">northwind</span>
+        </div>
+        <div class="mem-score-row">
+          <span class="mem-date">Saved May 28, 2026</span>
+          <span style="font-size:12px;color:var(--amber);cursor:pointer;font-family:var(--sg);font-weight:600;">Edit →</span>
+        </div>
+      </div>
+
+      <div class="mem-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <div class="mem-card-type" style="color:var(--green);">STYLE</div>
+          <span class="mem-score">0.67 match</span>
+        </div>
+        <div class="mem-card-title">Northwind communication style</div>
+        <div class="mem-card-body">For Northwind specifically: formal, number-led. Lead with metrics. Avoid corporate jargon. Keep under 120 words. Sign-off: "Best regards, [Name]".</div>
+        <div class="mem-score-row">
+          <span class="mem-date">Saved Apr 10, 2026</span>
+          <span style="font-size:12px;color:var(--amber);cursor:pointer;font-family:var(--sg);font-weight:600;">Edit →</span>
+        </div>
+      </div>
+
+      <div style="padding:12px 20px 20px;">
+        <button class="btn-primary" style="background:transparent;border:1.5px solid rgba(245,158,11,.35);color:var(--amber);">+ Add memory record</button>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item"><div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot"></div></div><span class="tab-text">Approve</span></div>
+      <div class="tab-item"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item active"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>Semantic query preview box in purple shows the exact query being evaluated — makes the AI retrieval legible</li>
+      <li>Match score displayed on every card (0.94, 0.81, 0.67) — executives see why each record was returned</li>
+      <li>Filter strip allows type filtering without leaving the search context — tap to narrow, tap again to reset</li>
+      <li>Inline Edit link on every card — memory is editable, not read-only. Users can correct the system.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     8. BUSINESS INTELLIGENCE
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-intel">
+  <div class="screen-label">08 — Business Intelligence</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span>●●●</span><span style="color:var(--amber);">⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="intel-header">
+        <div class="eyebrow">Reporting Agent · Week 24</div>
+        <div class="section-title">Business Intel</div>
+        <div style="font-size:13px;color:var(--dim);">Auto-generated from your operational data. Refreshed weekly.</div>
+      </div>
+
+      <div class="insight-card" style="--ic-color:var(--red);">
+        <span class="ic-sev">● Critical</span>
+        <div class="ic-title">5 invoices overdue — $6,840 at risk</div>
+        <div class="ic-body">Two vendors have issued second notices. CloudStack ($1,240) and DigitalOcean ($980) require immediate AP action before end of week.</div>
+        <div class="ic-action" style="color:var(--red);">Assign Finance Agent to escalate immediately</div>
+        <div class="sparkline-wrap">
+          <div class="sparkline-label">Overdue invoices — past 6 weeks</div>
+          <div class="sparkline">
+            <div class="spark-bar" style="height:30%;--spark-color:var(--green);"></div>
+            <div class="spark-bar" style="height:20%;--spark-color:var(--green);"></div>
+            <div class="spark-bar" style="height:45%;--spark-color:var(--yellow);"></div>
+            <div class="spark-bar" style="height:35%;--spark-color:var(--yellow);"></div>
+            <div class="spark-bar" style="height:60%;--spark-color:var(--red);"></div>
+            <div class="spark-bar" style="height:100%;--spark-color:var(--red);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-card" style="--ic-color:var(--yellow);">
+        <span class="ic-sev">● Warning</span>
+        <div class="ic-title">Meeting volume up 40% — output flat</div>
+        <div class="ic-body">21 meetings this week vs 15 last week. No proportional increase in decisions made or actions completed. Possible coordination overhead building.</div>
+        <div class="ic-action" style="color:var(--yellow);">Review recurring meetings for consolidation</div>
+      </div>
+
+      <div class="insight-card" style="--ic-color:var(--green);">
+        <span class="ic-sev">● Positive</span>
+        <div class="ic-title">Support resolution down 31% — team performing</div>
+        <div class="ic-body">Average resolution time 3.1h vs 4.5h last month. Backlog cleared. Trend is sustained for the past 3 weeks. Candidate for process documentation.</div>
+        <div class="ic-action" style="color:var(--green);">Document the change that drove this improvement</div>
+        <div class="sparkline-wrap">
+          <div class="sparkline-label">Resolution time — past 6 weeks (hours)</div>
+          <div class="sparkline">
+            <div class="spark-bar" style="height:90%;--spark-color:var(--red);"></div>
+            <div class="spark-bar" style="height:95%;--spark-color:var(--red);"></div>
+            <div class="spark-bar" style="height:75%;--spark-color:var(--yellow);"></div>
+            <div class="spark-bar" style="height:55%;--spark-color:var(--yellow);"></div>
+            <div class="spark-bar" style="height:35%;--spark-color:var(--green);"></div>
+            <div class="spark-bar" style="height:25%;--spark-color:var(--green);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-card" style="--ic-color:var(--blue);">
+        <span class="ic-sev">● Info</span>
+        <div class="ic-title">Revenue 3% below target — conversion improving</div>
+        <div class="ic-body">$58,200 vs $60,000. Lead conversion 3.2% (↑ from 2.8%). Gap narrowing week over week. Q3 target remains achievable at current trajectory.</div>
+        <div class="ic-action">No action required — monitor weekly</div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item"><div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot"></div></div><span class="tab-text">Approve</span></div>
+      <div class="tab-item"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item active"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>Severity ordering is strict: Critical first, Warning second, Positive third, Info last — never buried under good news</li>
+      <li>Inline sparklines show the trend over 6 weeks — not just the current number. Context is the value.</li>
+      <li>Each card ends with one actionable recommendation — not analysis paralysis, one clear next step</li>
+      <li>The top border color matches the severity system established in the design tokens — same language everywhere</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     9. REPORTS
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-reports">
+  <div class="screen-label">09 — Reports</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span>●●●</span><span style="color:var(--amber);">⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="reports-header">
+        <div class="eyebrow">Reporting Agent · auto-generated</div>
+        <div class="section-title">Reports</div>
+      </div>
+
+      <div class="period-toggle">
+        <button class="period-btn active">This week</button>
+        <button class="period-btn">This month</button>
+        <button class="period-btn">Quarter</button>
+      </div>
+
+      <!-- KPI mini-grid -->
+      <div class="report-kpi-grid">
+        <div class="rk-card">
+          <div class="rk-val" style="color:var(--amber);">$58.2K</div>
+          <div class="rk-label">Revenue</div>
+          <div class="rk-trend trend-down">↓ 3.0% vs target</div>
+        </div>
+        <div class="rk-card">
+          <div class="rk-val" style="color:var(--green);">34</div>
+          <div class="rk-label">New customers</div>
+          <div class="rk-trend trend-up">↑ 13% vs last week</div>
+        </div>
+        <div class="rk-card">
+          <div class="rk-val" style="color:var(--blue);">3.2%</div>
+          <div class="rk-label">Conversion rate</div>
+          <div class="rk-trend trend-up">↑ from 2.8%</div>
+        </div>
+        <div class="rk-card">
+          <div class="rk-val" style="color:var(--red);">5</div>
+          <div class="rk-label">Overdue invoices</div>
+          <div class="rk-trend trend-down">↑ 2 from last week</div>
+        </div>
+      </div>
+
+      <!-- Agent time saved bar chart -->
+      <div style="padding:0 20px;margin-bottom:16px;">
+        <div style="font-family:var(--sg);font-size:14px;font-weight:700;color:#fff;margin-bottom:12px;">Hours reclaimed by agent</div>
+        <div class="bar-chart-row">
+          <div class="bar-chart-label">Email</div>
+          <div class="bar-chart-track"><div class="bar-chart-fill" style="width:78%;--bar-c:var(--blue);--bar-c2:var(--blue-d);"><span class="bar-chart-val">9.3h</span></div></div>
+        </div>
+        <div class="bar-chart-row">
+          <div class="bar-chart-label">Reporting</div>
+          <div class="bar-chart-track"><div class="bar-chart-fill" style="width:58%;--bar-c:var(--amber);--bar-c2:var(--amber-d);"><span class="bar-chart-val">7.0h</span></div></div>
+        </div>
+        <div class="bar-chart-row">
+          <div class="bar-chart-label">Calendar</div>
+          <div class="bar-chart-track"><div class="bar-chart-fill" style="width:45%;--bar-c:var(--purple);--bar-c2:#7c3aed;"><span class="bar-chart-val">5.4h</span></div></div>
+        </div>
+        <div class="bar-chart-row">
+          <div class="bar-chart-label">Finance</div>
+          <div class="bar-chart-track"><div class="bar-chart-fill" style="width:32%;--bar-c:var(--green);--bar-c2:var(--green-d);"><span class="bar-chart-val">3.8h</span></div></div>
+        </div>
+      </div>
+
+      <!-- Report library -->
+      <div style="padding:0 20px 6px;font-family:var(--sg);font-size:14px;font-weight:700;color:#fff;">Report library</div>
+      <div class="report-card">
+        <div class="report-icon">📊</div>
+        <div>
+          <div class="report-name">Week 24 Executive Summary</div>
+          <div class="report-meta">Generated Jun 16 · 2 pages · Google Doc</div>
+        </div>
+        <button class="report-action">Open ↗</button>
+      </div>
+      <div class="report-card">
+        <div class="report-icon">💰</div>
+        <div>
+          <div class="report-name">June Financial Overview</div>
+          <div class="report-meta">Generated Jun 14 · 4 pages · Google Doc</div>
+        </div>
+        <button class="report-action">Open ↗</button>
+      </div>
+      <div class="report-card">
+        <div class="report-icon">📈</div>
+        <div>
+          <div class="report-name">Q2 Board Report — Draft</div>
+          <div class="report-meta">Generated Jun 10 · 12 pages · Google Doc</div>
+        </div>
+        <button class="report-action">Open ↗</button>
+      </div>
+      <div style="height:20px;"></div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item"><div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot"></div></div><span class="tab-text">Approve</span></div>
+      <div class="tab-item"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item active"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>Period toggle (week/month/quarter) updates all metrics simultaneously — one tap context switch</li>
+      <li>"Hours reclaimed by agent" bar chart makes the ROI tangible — executives see where the time savings came from</li>
+      <li>Report library links directly to Google Docs — no PDF download, no format conversion</li>
+      <li>Color-coding of KPI values matches severity (amber for near-target, green for positive, red for alerts)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     10. PROFILE & SETTINGS
+══════════════════════════════════ -->
+<div class="phone-wrap" id="screen-profile">
+  <div class="screen-label">10 — Profile & Settings</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="status-bar" style="padding-top:40px;">
+      <span class="status-time">9:41</span>
+      <div class="status-icons"><span>●●●</span><span style="color:var(--amber);">⚡87%</span></div>
+    </div>
+    <div class="phone-content">
+      <div class="profile-header">
+        <div class="profile-avatar">FB</div>
+        <div>
+          <div class="profile-name">Fateh Abderrahim</div>
+          <div class="profile-role">Sovereign AI Engineer · USTHB</div>
+          <div class="profile-tags">
+            <span class="badge badge-amber" style="font-size:9px;">Admin</span>
+            <span class="badge badge-blue" style="font-size:9px;">USAII Hackathon 2026</span>
+            <span style="font-size:13px;">🇩🇿</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-label">Workspace</div>
+        <div class="settings-item">
+          <div class="settings-icon">🌐</div>
+          <div class="settings-text">
+            <div class="settings-name">Google Workspace</div>
+            <div class="settings-sub">Connected · fateh@usthb.dz</div>
+          </div>
+          <div class="settings-right">
+            <span class="badge badge-green" style="font-size:9.5px;">● live</span>
+          </div>
+        </div>
+        <div class="settings-item">
+          <div class="settings-icon">🔑</div>
+          <div class="settings-text">
+            <div class="settings-name">Claude API</div>
+            <div class="settings-sub">claude-sonnet-4 · active</div>
+          </div>
+          <div class="settings-right">
+            <span class="badge badge-green" style="font-size:9.5px;">● live</span>
+          </div>
+        </div>
+        <div class="settings-item">
+          <div class="settings-icon">🗄️</div>
+          <div class="settings-text">
+            <div class="settings-name">Memory database</div>
+            <div class="settings-sub">847 records · pgvector</div>
+          </div>
+          <div class="settings-right" style="font-size:18px;">›</div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-label">Preferences</div>
+        <div class="settings-item">
+          <div class="settings-icon">🔔</div>
+          <div class="settings-text">
+            <div class="settings-name">Push notifications</div>
+            <div class="settings-sub">Approval requests, critical alerts</div>
+          </div>
+          <div class="settings-toggle"></div>
+        </div>
+        <div class="settings-item">
+          <div class="settings-icon">📱</div>
+          <div class="settings-text">
+            <div class="settings-name">Biometric unlock</div>
+            <div class="settings-sub">Face ID / Touch ID for approvals</div>
+          </div>
+          <div class="settings-toggle"></div>
+        </div>
+        <div class="settings-item">
+          <div class="settings-icon">🌍</div>
+          <div class="settings-text">
+            <div class="settings-name">Agent language</div>
+            <div class="settings-sub">English · Arabic · Français</div>
+          </div>
+          <div class="settings-right" style="font-size:18px;">›</div>
+        </div>
+        <div class="settings-item">
+          <div class="settings-icon">⏱</div>
+          <div class="settings-text">
+            <div class="settings-name">Auto-approve timeout</div>
+            <div class="settings-sub">Off — manual approval required</div>
+          </div>
+          <div class="settings-toggle off"></div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-label">Security</div>
+        <div class="settings-item">
+          <div class="settings-icon">📋</div>
+          <div class="settings-text">
+            <div class="settings-name">Audit log</div>
+            <div class="settings-sub">All actions, approvals, agent runs</div>
+          </div>
+          <div class="settings-right" style="font-size:18px;">›</div>
+        </div>
+        <div class="settings-item">
+          <div class="settings-icon">🔒</div>
+          <div class="settings-text">
+            <div class="settings-name">Data sovereignty</div>
+            <div class="settings-sub">On-premise mode · Algeria cluster</div>
+          </div>
+          <div class="settings-right">
+            <span class="badge badge-amber" style="font-size:9.5px;">Sovereign</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="danger-section">
+        <div class="settings-label" style="padding:12px 0 8px;">Danger zone</div>
+        <button class="danger-btn">
+          <span>🗑️</span> Clear all platform data
+        </button>
+        <button class="danger-btn" style="background:transparent;border-color:rgba(239,68,68,.15);">
+          <span>🚪</span> Sign out of all devices
+        </button>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab-item"><span class="tab-icon">◧</span><span class="tab-text">Home</span></div>
+      <div class="tab-item"><div class="tab-icon-wrap"><span class="tab-icon">✓</span><div class="tab-dot"></div></div><span class="tab-text">Approve</span></div>
+      <div class="tab-item"><span class="tab-icon">🤖</span><span class="tab-text">Agents</span></div>
+      <div class="tab-item"><span class="tab-icon">◎</span><span class="tab-text">Memory</span></div>
+      <div class="tab-item active"><span class="tab-icon">👤</span><span class="tab-text">Profile</span></div>
+    </div>
+  </div>
+  <div class="annotation-block">
+    <div class="ann-title">◈ Screen Design Notes</div>
+    <ul class="ann-list">
+      <li>Profile header shows org identity (USTHB, Algeria 🇩🇿) — reinforces the sovereign/national identity of the platform</li>
+      <li>"Auto-approve timeout" toggle is explicitly off — this is a feature that would be dangerous, shown as disabled to communicate the design philosophy</li>
+      <li>Data sovereignty row with "Sovereign" badge and cluster location — enterprise buyers check this first in settings</li>
+      <li>Danger zone is visually separated and uses lower-saturation red — discoverable but not alarming</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- end screens-row -->
+
+<div style="text-align:center;margin-top:60px;padding-bottom:40px;">
+  <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:6px;">Sovereign AI Workforce — Mobile App</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);margin-bottom:16px;">10 screens · Enterprise UX · Mission Control for a Digital Workforce</div>
+  <div style="font-size:13px;color:var(--faint);">Built by <strong style="color:var(--amber);">Boukhalfa Fateh Abderrahim</strong> · USTHB · Sovereign AI Engineer · USAII Global AI Hackathon 2026 🇩🇿</div>
+</div>
+
+<script>
+// Nav pill active state on click
+document.querySelectorAll('.nav-pill').forEach(p => {
+  p.addEventListener('click', () => {
+    document.querySelectorAll('.nav-pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
