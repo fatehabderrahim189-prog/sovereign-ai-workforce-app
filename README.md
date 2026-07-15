@@ -162,3 +162,105 @@ Developed for the **USAII Global AI Hackathon 2026**
 This repository is published for research, educational, and portfolio purposes.
 
 It demonstrates concepts related to autonomous AI workforce orchestration, responsible AI governance, and human-centered intelligent systems.
+---
+
+## Live Experience
+
+### Interactive Landing Website
+
+Explore the interactive product website presenting the platform vision, system architecture, responsible AI governance model, and future roadmap.
+
+**Live Demo**
+https://classy-alfajores-f789a5.netlify.app/
+
+---
+
+### Official Product Website
+
+Experience the official digital presentation of Sovereign AI Workforce.
+
+https://precious-gelato-a9349a.netlify.app/
+
+---
+
+### Mobile Application Prototype
+
+The repository includes a high-fidelity mobile application demonstrating:
+
+- AI Workforce Dashboard
+- Agent Monitoring
+- Workflow Builder
+- Human Approval Center
+- Notifications
+- Intelligent Task Management
+
+---
+
+## Design Philosophy
+
+Sovereign AI Workforce was designed around three complementary principles.
+
+### Human-Centered AI
+
+Artificial Intelligence should enhance human capability rather than replace human judgment.
+
+### Responsible Autonomy
+
+Autonomous systems should remain transparent, explainable, and accountable throughout every workflow.
+
+### Collaborative Intelligence
+
+Future AI systems will increasingly consist of specialized agents collaborating under meaningful human supervision rather than isolated intelligent models.
+
+---
+
+## Project Objectives
+
+This project investigates practical approaches for:
+
+- Multi-Agent Collaboration
+- AI Workflow Orchestration
+- Responsible AI Governance
+- Organizational Intelligence
+- Human-AI Collaboration
+- Intelligent Decision Support
+- Explainable AI Systems
+
+---
+
+## Documentation
+
+The repository also contains complete supporting documentation.
+
+Included documents:
+
+- Master Project Documentation
+- System Architecture
+- Design System
+- Strategy Document
+- Submission Package
+- Production Guide
+- Pitch Deck
+
+These documents describe the conceptual architecture, governance model, user experience, and research direction of the platform.
+
+---
+
+## Acknowledgment
+
+Developed independently as part of the
+
+**USAII Global AI Hackathon 2026**
+
+with the objective of exploring future approaches to trustworthy autonomous AI workforce systems.
+
+---
+
+## Contact
+
+**Fateh Abderrahim Boukhalfa**
+
+AI Research & Engineering Enthusiast
+
+GitHub:
+https://github.com/fatehabderrahim189-prog
