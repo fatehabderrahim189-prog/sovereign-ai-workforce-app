@@ -1,4 +1,25 @@
 # Sovereign AI Workforce
+## 🚀 Live Experiences
+
+### 🌐 Official Interactive Demo
+
+Explore the main Sovereign AI Workforce experience and discover the vision of a human-governed multi-agent AI system through an interactive digital interface.
+
+🔗 https://sovereign-ai-workforce.netlify.app/
+
+
+### 📱 Mobile Application Prototype
+
+Experience the mobile-oriented prototype designed to demonstrate intelligent workflows, AI workforce interaction, and human-AI collaboration concepts.
+
+🔗 https://classy-alfajores-f789a5.netlify.app/
+
+
+### 🎨 Interactive Design Experience
+
+Explore an additional interface experience highlighting the project's visual identity, design concepts, and user experience exploration.
+
+🔗 https://precious-gelato-a9349a.netlify.app/
 
 ## A Human-Governed Multi-Agent AI Research Prototype
 
