@@ -1,32 +1,8 @@
 # Sovereign AI Workforce
-## 🚀 Live Experiences
-
-### 🌐 Official Interactive Demo
-
-Explore the main Sovereign AI Workforce experience and discover the vision of a human-governed multi-agent AI system through an interactive digital interface.
-
-🔗 https://sovereign-ai-workforce.netlify.app/
-
-
-### 📱 Mobile Application Prototype
-
-Experience the mobile-oriented prototype designed to demonstrate intelligent workflows, AI workforce interaction, and human-AI collaboration concepts.
-
-🔗 https://classy-alfajores-f789a5.netlify.app/
-
-
-### 🎨 Interactive Design Experience
-
-Explore an additional interface experience highlighting the project's visual identity, design concepts, and user experience exploration.
-
-🔗 https://precious-gelato-a9349a.netlify.app/
 
 ## A Human-Governed Multi-Agent AI Research Prototype
 
-![Artificial Intelligence](https://img.shields.io/badge/Artificial%20Intelligence-Research-blue)
-![Multi-Agent Systems](https://img.shields.io/badge/Multi--Agent-Systems-purple)
-![AI Governance](https://img.shields.io/badge/Responsible-AI-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+Artificial Intelligence • Multi-Agent Systems • AI Governance • Human-Centered AI
 
 ---
 
@@ -34,54 +10,41 @@ Explore an additional interface experience highlighting the project's visual ide
 
 ## 🌐 Official Interactive Demo
 
-Experience the main Sovereign AI Workforce interface and explore the vision of
-a human-governed multi-agent AI system through an interactive digital experience.
+Explore the main Sovereign AI Workforce experience and discover the vision of a human-governed multi-agent AI system through an interactive digital interface.
 
-🔗 Demo:
-https://sovereign-ai-workforce.netlify.app/
+🔗 https://sovereign-ai-workforce.netlify.app/
 
 ---
 
 ## 📱 Mobile Application Prototype
 
-Explore the mobile-focused prototype designed to demonstrate AI workforce
-interaction, intelligent workflows, and a futuristic human-AI collaboration
-experience.
+Experience the mobile-oriented prototype designed to demonstrate intelligent workflows, AI workforce interaction, and human-AI collaboration concepts.
 
-🔗 Mobile Prototype:
-https://classy-alfajores-f789a5.netlify.app/
+🔗 https://classy-alfajores-f789a5.netlify.app/
 
 ---
 
 ## 🎨 Interactive Design Experience
 
-Explore an additional interactive experience highlighting the project's visual
-identity, interface concepts, and design system exploration.
+Explore an additional interface experience highlighting the project's visual identity, design concepts, and user experience exploration.
 
-🔗 Design Experience:
-https://precious-gelato-a9349a.netlify.app/
+🔗 https://precious-gelato-a9349a.netlify.app/
 
 ---
 
 # Overview
 
-**Sovereign AI Workforce** is a research-driven prototype exploring the future
-of human-governed multi-agent artificial intelligence systems.
+Sovereign AI Workforce is a research-driven prototype exploring the future of human-governed multi-agent artificial intelligence systems.
 
-The project investigates how specialized AI agents can collaborate,
-coordinate tasks, and support human decision-making while maintaining
-transparency, responsibility, and meaningful human oversight.
+The project investigates how specialized AI agents can collaborate, coordinate tasks, and support human decision-making while maintaining transparency, responsibility, and meaningful human oversight.
 
-Rather than replacing human intelligence, this project explores a model where
-AI systems become collaborative partners within a governed and trustworthy
-framework.
+Rather than replacing human intelligence, this project explores a model where AI systems become collaborative partners within a governed and trustworthy framework.
 
 ---
 
 # Vision
 
-To explore a future where artificial intelligence systems amplify human
-capabilities through:
+To explore a future where artificial intelligence systems amplify human capabilities through:
 
 - Responsible autonomy
 - Human-centered design
@@ -98,8 +61,7 @@ As AI systems become increasingly capable, important questions emerge:
 - How can humans maintain meaningful control?
 - How can autonomous workflows remain transparent and accountable?
 
-Sovereign AI Workforce explores these challenges through a practical research
-prototype.
+Sovereign AI Workforce explores these challenges through a practical research prototype.
 
 ---
 
@@ -119,8 +81,7 @@ Designing AI workflows with transparency, accountability, and reliability.
 
 ## Human-AI Partnership
 
-Investigating how AI can augment human creativity, productivity, and decision
-making.
+Investigating how AI can augment human creativity, productivity, and decision-making.
 
 ---
 
@@ -132,8 +93,7 @@ A conceptual framework for coordinating specialized AI agents.
 
 ## Interactive Digital Experience
 
-A collection of interfaces demonstrating AI workforce concepts and system
-interaction.
+A collection of interfaces demonstrating AI workforce concepts and system interaction.
 
 ## Research Documentation
 
@@ -171,7 +131,7 @@ The project explores concepts related to:
 
 This repository includes:
 
-📄 Research Documentation
+## 📄 Research Documentation
 
 - Architecture Documentation
 - Design System Documentation
@@ -179,7 +139,7 @@ This repository includes:
 - Pitch Deck
 - Submission Package
 
-🔧 Open Source Infrastructure
+## 🔧 Open Source Infrastructure
 
 - LICENSE
 - CITATION.cff
@@ -194,8 +154,7 @@ This repository includes:
 
 ## v1.0.0 — Research Prototype
 
-Initial public release introducing the foundation of the Sovereign AI Workforce
-concept.
+Initial public release introducing the foundation of the Sovereign AI Workforce concept.
 
 ---
 
@@ -227,8 +186,7 @@ Developed for:
 
 **USAII Global AI Hackathon 2026**
 
-This project represents an exploration of responsible AI systems and
-human-centered autonomous technologies.
+This project represents an exploration of responsible AI systems and human-centered autonomous technologies.
 
 ---
 
@@ -251,13 +209,10 @@ See the LICENSE file for details.
 
 Independent AI Research Initiative
 
-Exploring responsible artificial intelligence, multi-agent systems, and
-human-centered autonomous technologies.
+Exploring responsible artificial intelligence, multi-agent systems, and human-centered autonomous technologies.
 
 ---
 
 # Acknowledgment
 
-This project represents a continuous exploration of how emerging AI systems
-can enhance human capability while preserving responsibility, transparency,
-and trust.
+This project represents a continuous exploration of how emerging AI systems can enhance human capability while preserving responsibility, transparency, and trust.
