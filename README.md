@@ -216,3 +216,12 @@ Exploring responsible artificial intelligence, multi-agent systems, and human-ce
 # Acknowledgment
 
 This project represents a continuous exploration of how emerging AI systems can enhance human capability while preserving responsibility, transparency, and trust.
+## Research Question
+
+This project explores a central question:
+
+How can multi-agent AI systems increase autonomy and capability while preserving human understanding, oversight, and accountability?
+## Personal Learning
+
+Building this prototype changed my perspective on AI systems.
+I initially focused on increasing capability, but discovered that scalable intelligence requires equally strong mechanisms for transparency and human control.
