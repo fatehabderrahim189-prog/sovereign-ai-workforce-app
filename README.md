@@ -24,14 +24,6 @@ Experience the mobile-oriented prototype designed to demonstrate intelligent wor
 
 ---
 
-## 🎨 Interactive Design Experience
-
-Explore an additional interface experience highlighting the project's visual identity, design concepts, and user experience exploration.
-
-🔗 https://precious-gelato-a9349a.netlify.app/
-
----
-
 # Overview
 
 Sovereign AI Workforce is a research-driven prototype exploring the future of human-governed multi-agent artificial intelligence systems.
